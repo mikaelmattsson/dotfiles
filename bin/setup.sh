@@ -280,7 +280,7 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # New Finder windows shows Home directory
 defaults write com.apple.finder NewWindowTarget -string "PfHm"
-defaults write com.apple.finder NewWindowTargetPath -string "file:///Users/vincent/"
+defaults write com.apple.finder NewWindowTargetPath -string "file:///Users/mikael/"
 
 # Finder: allow text selection in Quick Look
 defaults write com.apple.finder QLEnableTextSelection -bool true

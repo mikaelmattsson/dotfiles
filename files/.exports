@@ -26,9 +26,9 @@ export LESS_TERMCAP_md="${ORANGE}";
 export HOMEBREW_CASK_OPTS="--appdir=/Applications";
 
 # Git credentials
-GIT_AUTHOR_NAME="Vincent Klaiber"
+GIT_AUTHOR_NAME="Mikael Mattsson"
 GIT_COMMITTER_NAME="${GIT_AUTHOR_NAME}"
 git config --global user.name "${GIT_AUTHOR_NAME}"
-GIT_AUTHOR_EMAIL="vincentklaiber@gmail.com"
+GIT_AUTHOR_EMAIL="mikael.p.mattsson@gmail.com"
 GIT_COMMITTER_EMAIL="${GIT_AUTHOR_EMAIL}"
 git config --global user.email "${GIT_AUTHOR_EMAIL}"
