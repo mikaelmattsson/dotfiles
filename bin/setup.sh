@@ -103,7 +103,7 @@ HOMEBREW_PREFIX="/usr/local"
 HOMEBREW_CACHE="/Library/Caches/Homebrew"
 for dir in "$HOMEBREW_PREFIX" "$HOMEBREW_CACHE"; do
   [ -d "$dir" ] || sudo mkdir -p "$dir"
-  sudo chmod g+rwx "$dir"
+  sudo chown -R $USER:admin "$dir"
 done
 sudo chgrp admin "$HOMEBREW_PREFIX" "$HOMEBREW_CACHE"
 sudo chown root "$HOMEBREW_PREFIX"
@@ -117,6 +117,7 @@ git rev-parse --verify --quiet origin/master >/dev/null || {
   git fetch $Q origin master:refs/remotes/origin/master --no-tags --depth=1
   git reset $Q --hard origin/master
 }
+sudo chmod g+rwx "$HOMEBREW_PREFIX"/* "$HOMEBREW_PREFIX"/.??*
 unset GIT_DIR GIT_WORK_TREE
 logk
 
@@ -127,6 +128,7 @@ brew update
 brew tap | grep -i $Q Homebrew/bundle || brew tap Homebrew/bundle
 cat > /tmp/Brewfile.strap <<EOF
 tap 'caskroom/cask'
+tap 'caskroom/versions'
 tap 'homebrew/versions'
 tap 'homebrew/php'
 brew 'caskroom/cask/brew-cask'
@@ -186,6 +188,67 @@ else
   fi
   logk
 fi
+
+# Install latest version of Bash.
+logn "Install latest version of Bash:"
+brew install bash
+if [ -z "$STRAP_CI" ]; then
+  sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
+  chsh -s /usr/local/bin/bash
+else
+  echo "Skipping updating shells for CI"
+fi
+logk
+
+logn "Installing binaries:"
+cat > /tmp/Brewfile.strap <<EOF
+brew 'aria2'
+brew 'git'
+brew 'gnu-sed', args: ['with-default-names']
+brew 'homebrew/versions/bash-completion2'
+brew 'hub'
+brew 'node'
+brew 'rename'
+brew 'ssh-copy-id'
+brew 'wget'
+brew 'z'
+EOF
+brew bundle --file=/tmp/Brewfile.strap
+rm -f /tmp/Brewfile.strap
+logk
+
+logn "Installing PHP:"
+brew install homebrew/php/php70
+sed -i".bak" "s/^\;phar.readonly.*$/phar.readonly = Off/g" /usr/local/etc/php/7.0/php.ini
+sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.0/php.ini
+brew install homebrew/php/composer
+brew install homebrew/php/php-cs-fixer
+logk
+
+logn "Installing Mac applications:"
+export HOMEBREW_CASK_OPTS="--appdir=/Applications";
+cat > /tmp/Caskfile.strap <<EOF
+cask 'appcleaner'
+cask 'dropbox'
+cask 'firefox'
+cask 'fontprep'
+cask 'google-chrome'
+cask 'imagealpha'
+cask 'imageoptim'
+cask 'java'
+cask 'phpstorm'
+cask 'sequel-pro'
+cask 'skype'
+cask 'spotify'
+cask 'steam'
+cask 'the-unarchiver'
+cask 'vagrant'
+cask 'virtualbox'
+cask 'vlc'
+EOF
+brew bundle --file=/tmp/Caskfile.strap
+rm -f /tmp/Caskfile.strap
+logk
 
 # Create Sites directory in user folder.
 logn "Create Sites directory in user folder:"
@@ -260,4 +323,4 @@ logk
 # Revoke sudo access again.
 sudo -k
 
-log 'Finished! Install additional software with `brew install` and `brew cask install`.'
+log 'Finished! Please reboot! Install additional software with `brew install` and `brew cask install`.'
