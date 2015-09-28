@@ -39,11 +39,11 @@ sudo /usr/bin/true
 logk
 
 # Set computer name (as done via System Preferences → Sharing)
-logn "Set computer name to Valhall:"
-sudo scutil --set ComputerName "Valhall"
-sudo scutil --set HostName "Valhall"
-sudo scutil --set LocalHostName "Valhall"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "Valhall"
+logn "Set computer name to Sidonia:"
+sudo scutil --set ComputerName "Sidonia"
+sudo scutil --set HostName "Sidonia"
+sudo scutil --set LocalHostName "Sidonia"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "Sidonia"
 logk
 
 # Install the Xcode Command Line Tools if Xcode isn't installed.
