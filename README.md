@@ -12,7 +12,7 @@
 This is the installation guide to setup these dotfiles on a new OS X system.
 
 ```bash
-git clone git@github.com:vinkla/dotfiles.git
+git clone https://github.com/mikaelmattsson/dotfiles.git
 cd dotfiles
 ./bin/setup.sh # or ./bin/setup.sh --debug for more debugging output
 ```
