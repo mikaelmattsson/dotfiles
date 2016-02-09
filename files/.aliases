@@ -1,3 +1,11 @@
+
+# Quick edits
+# Must fist install sublime text
+# and run "ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl"
+alias edithosts = subl /etc/hosts
+alias editaliases = subl ~/.aliases
+alias editssh = subl ~/.ssh/config
+
 # Easier navigation
 alias ..="cd .."
 alias ...="cd ../.."
